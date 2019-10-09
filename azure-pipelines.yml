@@ -2,19 +2,15 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-
 - task: Npm@1
-  displayName: 'npm install'
   inputs:
-    command: install
-
+    command: 'install'
 - task: Npm@1
-  displayName: 'Build Angular'
   inputs:
-    command: custom
-    customCommand: run build -- --prod
-
-- task: PublishPipelineArtifact@0
+    command: 'custom'
+    customCommand: 'run prod-build-dev'
+- task: PublishBuildArtifacts@1
   inputs:
-    artifactName: 'angular'
-    targetPath: 'dist'
+    PathtoPublish: 'dist'
+    ArtifactName: 'app'
+    publishLocation: 'Container'
