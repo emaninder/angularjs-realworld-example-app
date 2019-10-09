@@ -10,7 +10,7 @@ steps:
   displayName: 'npm angular'
   inputs:
     command: 'custom'
-    customCommand: 'install -g @angular/cli@latest'
+    customCommand: 'install @angular/cli@latest'
 
 - task: Npm@1
   displayName: 'npm build'
