@@ -3,14 +3,32 @@ variables:
 
 steps:
 - task: Npm@1
+  displayName: 'npm install'
   inputs:
     command: 'install'
 - task: Npm@1
+  displayName: 'npm angular'
+  inputs:
+    command: 'custom'
+    customCommand: 'install -g @angular/cli@latest'
+
+- task: Npm@1
+  displayName: 'npm build'
   inputs:
     command: 'custom'
     customCommand: 'run prod-build-dev'
-- task: PublishBuildArtifacts@1
+
+- task: ArchiveFiles@2
+  displayName: 'archive build'
   inputs:
-    PathtoPublish: 'dist'
-    ArtifactName: 'app'
+    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/dist.zip'
+    replaceExistingArchive: true
+- task: PublishBuildArtifacts@1
+  displayName: 'publish build'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
     publishLocation: 'Container'
